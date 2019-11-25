@@ -1,4 +1,4 @@
-package myMath;
+package Ex1;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -401,6 +401,13 @@ public class Polynom implements Polynom_able
 			s = s.substring(1);
 		s = s.replace("+-", "-");
 		return s;
+	}
+	@Override
+	public function initFromString(String s) 
+	{
+		// TODO Auto-generated method stub
+		Polynom p = new Polynom(s);
+		return p;
 	}
 
 }

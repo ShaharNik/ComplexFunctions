@@ -1,5 +1,5 @@
 
-package myMath;
+package Ex1;
 
 import java.util.Comparator;
 
@@ -293,5 +293,17 @@ public class Monom implements function
 		this._power = p;
 	}
 	private static Monom getNewZeroMonom() {return new Monom(ZERO);}
+	@Override
+	public function initFromString(String s) 
+	{
+		// TODO Auto-generated method stub
+		Monom m = new Monom(s);
+		return m;
+	}
+	@Override
+	public function copy() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
