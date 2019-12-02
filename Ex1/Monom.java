@@ -297,13 +297,14 @@ public class Monom implements function
 	public function initFromString(String s) 
 	{
 		// TODO Auto-generated method stub
-		Monom m = new Monom(s);
+		function m = new Monom(s);
 		return m;
 	}
 	@Override
 	public function copy() {
 		// TODO Auto-generated method stub
-		return null;
+		function ans = new Monom(this);
+		return ans;
 	}
 
 }

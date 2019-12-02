@@ -219,28 +219,48 @@ public class Polynom implements Polynom_able
 	}
 
 	@Override
-	public boolean equals(Polynom_able p1) 
+	public boolean equals(Object p1) 
 	{
 		// TODO Auto-generated method stub
-		Iterator<Monom> itrP1 = p1.iteretor();
-		int count = 0;
-		Iterator<Monom> itrMonom = this.Polly.iterator();
-		while(itrP1.hasNext())
+		if(p1 instanceof Polynom_able)
 		{
-			Monom mP1 = itrP1.next();
-			count ++;
-			if(!itrMonom.hasNext())
-				return false;
-			Monom mMonom = itrMonom.next();
-			if(!mP1.equals(mMonom))
-				return false;
-		}
-		if(count != this.Polly.size())
-			return false;
-		
-		
-		return true;  
+			Polynom_able p2 = (Polynom_able) p1;
+			if(p2==null || this==null)
+			{
+				throw new RuntimeException("ERR one of the variables is null");
+			}
+			Iterator<Monom> itr = p2.iteretor();
+			boolean ans = true ;
+			int count = 0 ;
+			while(itr.hasNext())
+			{
+				Monom m = new Monom(itr.next());
 
+				if(count>=Polly.size()) 
+				{
+					return false;
+				}
+				else if(!Polly.get(count).equals(m))	
+				{
+					return false;
+				}
+				count++;
+			}
+
+			if(count!=Polly.size())
+				return false;
+
+			return ans;
+		}
+		else
+		{
+			if(p1 instanceof Monom)
+			{
+				Polynom m = new Polynom(p1.toString());
+				return this.equals(m);
+			}
+			return false;
+		}
 	}
 
 	@Override
@@ -406,7 +426,7 @@ public class Polynom implements Polynom_able
 	public function initFromString(String s) 
 	{
 		// TODO Auto-generated method stub
-		Polynom p = new Polynom(s);
+		function p = new Polynom(s);
 		return p;
 	}
 

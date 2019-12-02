@@ -30,8 +30,8 @@ public class ComplexFunction implements complex_function
 			break;
 			case "None": this._Op = Operation.None;
 			break;
-			case "Error": this._Op = Operation.Error;
-			//default:    
+			default: this._Op = Operation.Error;
+			  
 		}
 		this._Left = left;
 		this._Right = right;
@@ -51,7 +51,10 @@ public class ComplexFunction implements complex_function
 		{
 			case "Plus":  return _Left.f(x)+_Right.f(x);
 			case "Times" :  return _Left.f(x)*_Right.f(x);
-			case "Divid" : return _Left.f(x)/_Right.f(x);
+			case "Divid" : if(_Right.f(x)!=0)
+							return _Left.f(x)/_Right.f(x);
+						   else
+							   throw new RuntimeException("Can't divide by 0");
 			case "Max" : if(_Left.f(x)>_Right.f(x))
 							return _Left.f(x);
 						else
@@ -199,6 +202,44 @@ public class ComplexFunction implements complex_function
 	{
 		// TODO Auto-generated method stub
 		return this._Op;
+	}
+	@Override
+	 /**
+	  * @return string that represent this complex function.
+	  */
+	public String toString() {
+		String ans="";
+		String op ="";
+		if(this._Op!=Operation.None) {
+			if (this._Op == Operation.Plus) {
+				ans+="plus";
+			}
+			if (this._Op == Operation.Times) {
+				ans+="mul";
+			}
+			if (this._Op == Operation.Divid) {
+				ans+="div";
+			}
+			if (this._Op == Operation.Max) {
+				ans+="max";
+			}
+			if (this._Op == Operation.Min) {
+				ans+="min";
+			}
+			if (this._Op == Operation.Comp) {
+				ans+="comp";
+			}
+			ans+="(";
+		}
+		if(this._Left!=null) {
+			ans+=this._Left;	
+		}
+		if(this._Right!=null) {
+			ans+=",";
+			ans+=this._Right;
+			ans+=")";
+		}
+		return ans;
 	}
 
 }
