@@ -185,9 +185,10 @@ public class Polynom implements Polynom_able
 	public void multiply(Monom m1) 
 	{
 		Iterator<Monom> runner = this.iteretor();
+		Monom m2 = new Monom(m1);
 		while(runner.hasNext())
 		{
-			runner.next().multiply(m1);
+			runner.next().multipy(m2);
 		}
 		this.Polly.sort(new Monom_Comperator());
 	}
@@ -195,27 +196,29 @@ public class Polynom implements Polynom_able
 	public void multiply(Polynom_able p1) 
 	{	
 		// TODO Auto-generated method stub
-		ArrayList<Monom> new_Monoms = new ArrayList<Monom>();
-		Polynom_able new_p1 = p1.copy();
-
-		for(Monom monom : Polly)
+		if(p1.isZero() || this.isZero())
 		{
-			Iterator<Monom> itr = new_p1.iteretor();
+			Polly = new ArrayList<Monom>();
+			Polly.add(new Monom(Monom.ZERO));
+		}
+		ArrayList<Monom> newMonoms = new ArrayList<Monom>();
+		Polynom_able newp1 = (Polynom_able) p1.copy();
+
+		for (Monom monom : Polly) {
+			Iterator<Monom> itr = newp1.iteretor();
 			while(itr.hasNext())
 			{
 				Monom m = new Monom(itr.next());
-				m.multiply(monom);
-				new_Monoms.add(m);
+				m.multipy(monom);
+				newMonoms.add(m);
 			}
-
 		}
 		Polynom pol = new Polynom();
-		for (Monom monom : new_Monoms)
-		{
+		for (Monom monom : newMonoms) {
 			pol.add(monom);
 		}
+		this.Polly = pol.Polly;
 		this.Polly.sort(new Monom_Comperator());
-		this.Polly=pol.Polly;
 	}
 
 	@Override

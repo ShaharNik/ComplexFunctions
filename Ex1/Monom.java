@@ -237,7 +237,7 @@ public class Monom implements function
 			throw new Exception("the power must be the same as the original monom");
 		}
 	}
-	public void multiply(Monom d) 
+	public void multipy(Monom d) 
 	{
 		this._coefficient = (d._coefficient * this._coefficient);
 		this._power = (d._power + this._power);
