@@ -16,25 +16,27 @@ public class ComplexFunction implements complex_function
 	{
 		switch (Op)
 		{
-			case "Plus": this._Op = Operation.Plus;
-				break;
-			case "Times": this._Op = Operation.Times;
-			break;
-			case "Divid": this._Op = Operation.Divid;
-			break;
-			case "Max": this._Op = Operation.Max;
-			break;
-			case "Min": this._Op = Operation.Min; 
-			break;
-			case "Comp": this._Op = Operation.Comp;
-			break;
-			case "None": this._Op = Operation.None;
-			break;
-			default: this._Op = Operation.Error;
-			  
+		case "Plus": this._Op = Operation.Plus;
+		break;
+		case "Times": this._Op = Operation.Times;
+		break;
+		case "Divid": this._Op = Operation.Divid;
+		break;
+		case "Max": this._Op = Operation.Max;
+		break;
+		case "Min": this._Op = Operation.Min; 
+		break;
+		case "Comp": this._Op = Operation.Comp;
+		break;
+		case "None": this._Op = Operation.None;
+		break;
+		default: this._Op = Operation.Error;
+		break;
 		}
-		this._Left = left;
-		this._Right = right;
+		if (this._Left != null)
+			this._Left = left;
+		if (this._Right != null)
+			this._Right = right;
 	}
 
 	public ComplexFunction(function left) 
@@ -49,26 +51,26 @@ public class ComplexFunction implements complex_function
 		// TODO Auto-generated method stub
 		switch(_Op.toString())
 		{
-			case "Plus":  return _Left.f(x)+_Right.f(x);
-			case "Times" :  return _Left.f(x)*_Right.f(x);
-			case "Divid" : if(_Right.f(x)!=0)
-							return _Left.f(x)/_Right.f(x);
-						   else
-							   throw new RuntimeException("Can't divide by 0");
-			case "Max" : if(_Left.f(x)>_Right.f(x))
-							return _Left.f(x);
-						else
-							return _Right.f(x);
-			case "Min" : if(_Left.f(x)>_Right.f(x))
-							return _Right.f(x);
-						else
-							return _Left.f(x);
-			case "Comp" : 
-						if(_Right != null) 
-							return _Left.f(_Right.f(x));
-						else
-							return _Left.f(x);
-			default: throw new RuntimeException("The Operation is not vaild");
+		case "Plus":  return _Left.f(x)+_Right.f(x);
+		case "Times" :  return _Left.f(x)*_Right.f(x);
+		case "Divid" : if(_Right.f(x)!=0)
+			return _Left.f(x)/_Right.f(x);
+		else
+			throw new RuntimeException("Can't divide by 0");
+		case "Max" : if(_Left.f(x)>_Right.f(x))
+			return _Left.f(x);
+		else
+			return _Right.f(x);
+		case "Min" : if(_Left.f(x)>_Right.f(x))
+			return _Right.f(x);
+		else
+			return _Left.f(x);
+		case "Comp" : 
+			if(_Right != null) 
+				return _Left.f(_Right.f(x));
+			else
+				return _Left.f(x);
+		default: throw new RuntimeException("The Operation is not vaild");
 		}
 	}
 
@@ -76,7 +78,81 @@ public class ComplexFunction implements complex_function
 	public function initFromString(String s) 
 	{
 		// TODO Auto-generated method stub
-		return null;
+		s = s.strip(); // remove spaces
+		//s=clearSpaces(s);
+		int i=0;
+		if (s.indexOf('(') == -1 && s.indexOf(')') == -1) { 
+			Polynom po = new Polynom (s);
+			function fun= new ComplexFunction(po);
+			return fun;
+		}
+		else 
+		{
+			while (s.charAt(i) != '(') 
+			{
+				i++;
+			}
+			int split=splitPoint(s, i+1);
+			String s1=s.substring(i+1, split);
+			function left = initFromString(s1);
+			String s2=s.substring(split+1, s.length()-1);
+			function right = initFromString(s2);
+			String s3 = s.substring(0, i);
+			s3.toLowerCase();
+			String s4="";
+			switch(s3) 
+			{
+
+			case "plus"	: s4="Plus"; break;
+
+			case "mul"	: s4="Times"; break;
+
+			case "div"	: s4="Divid"; break;
+
+			case "max" 	: s4="Max"; break;
+
+			case "min"	: s4="Min"; break;
+
+			case "comp"	: s4="Comp"; break;
+
+			default: s4="None"; break;
+
+			}
+			function fun= new ComplexFunction(s4, left, right);
+			return fun;
+		}
+	}
+	/**
+	 * 
+	 * @param s - string that represents a complex function
+	 * @param i - location after "("
+	 * @return location of the split (left and right)
+	 */
+	private int splitPoint (String s , int i) 
+	{
+		int comma=0;
+		int opener=1;
+		int closer=0;
+		int SplitAt=0;
+		while(i != s.length()) 
+		{
+			if(s.charAt(i)=='(') 
+				opener++;
+
+			else if(s.charAt(i)==',') 
+				comma++;
+
+			else if(s.charAt(i)==')') 
+				closer++;
+
+			if(comma==opener && s.charAt(i) == ',') 
+			{
+				SplitAt=i;
+				return SplitAt;
+			}
+			i++;
+		}		
+		return SplitAt;
 	}
 
 	@Override
@@ -94,15 +170,11 @@ public class ComplexFunction implements complex_function
 			ComplexFunction f = (ComplexFunction)other;
 			boolean check=false;
 			if(this._Op.compareTo(f._Op) == 0) // check if the enums are equal
-			{
 				check = true;
-			}
 			return this._Left.equals(f._Left) && this._Right.equals(f._Right) && check ;
 		}
 		if(other instanceof function)
-		{
 			return this._Left.equals(other);
-		}
 		return false;
 	}
 	@Override
@@ -204,42 +276,44 @@ public class ComplexFunction implements complex_function
 		return this._Op;
 	}
 	@Override
-	 /**
-	  * @return string that represent this complex function.
-	  */
-	public String toString() {
+	/**
+	 * @return string that represent this complex function.
+	 */
+	public String toString() 
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append(this._Op.toString() +"("+this._Left.toString()+","+this._Right.toString()+")");
+		return sb.toString();
+		/*
 		String ans="";
 		String op ="";
-		if(this._Op!=Operation.None) {
-			if (this._Op == Operation.Plus) {
+		if (this._Op != Operation.None) 
+		{
+			if (this._Op == Operation.Plus) 
 				ans+="plus";
-			}
-			if (this._Op == Operation.Times) {
+			else if (this._Op == Operation.Times) 
 				ans+="mul";
-			}
-			if (this._Op == Operation.Divid) {
+			else if (this._Op == Operation.Divid) 
 				ans+="div";
-			}
-			if (this._Op == Operation.Max) {
+			else if (this._Op == Operation.Max) 
 				ans+="max";
-			}
-			if (this._Op == Operation.Min) {
+			else if (this._Op == Operation.Min) 
 				ans+="min";
-			}
-			if (this._Op == Operation.Comp) {
+			else if (this._Op == Operation.Comp) 
 				ans+="comp";
-			}
+
 			ans+="(";
 		}
-		if(this._Left!=null) {
+		if(this._Left!=null) 
 			ans+=this._Left;	
-		}
-		if(this._Right!=null) {
+		if(this._Right!=null) 
+		{
 			ans+=",";
 			ans+=this._Right;
 			ans+=")";
 		}
 		return ans;
+		 */
 	}
 
 }
