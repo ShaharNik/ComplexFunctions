@@ -1,10 +1,11 @@
 package Ex1;
 
 import java.util.ArrayList;
+
 import java.util.Iterator;
 import java.util.function.Predicate;
 
-import myMath.Monom;
+import Ex1.Monom;
 /**
  * This class represents a Polynom with add, multiply functionality, it also should support the following:
  * 1. Riemann's Integral: https://en.wikipedia.org/wiki/Riemann_integral
@@ -408,6 +409,7 @@ public class Polynom implements Polynom_able
 	@Override
 	public String toString() 
 	{
+		//StringBuilder sb = new StringBuilder();
 		String s ="";
 		Iterator <Monom> runner = this.iteretor();
 		while(runner.hasNext()) 
@@ -416,6 +418,7 @@ public class Polynom implements Polynom_able
 			if(!m.isZero()) 
 			{
 				s+="+"+m.toString();
+				//sb.append("+"+m.toString());
 			}
 		}
 
@@ -424,6 +427,7 @@ public class Polynom implements Polynom_able
 			s = s.substring(1);
 		s = s.replace("+-", "-");
 		return s;
+		
 	}
 	@Override
 	public function initFromString(String s) 
