@@ -33,10 +33,9 @@ public class ComplexFunction implements complex_function
 		default: this._Op = Operation.Error;
 		break;
 		}
-		if (this._Left != null)
+		if (left != null)
 			this._Left = left;
-		if (this._Right != null)
-			this._Right = right;
+		this._Right = right;
 	}
 
 	public ComplexFunction(function left) 
@@ -70,6 +69,8 @@ public class ComplexFunction implements complex_function
 				return _Left.f(_Right.f(x));
 			else
 				return _Left.f(x);
+		case "None" :	
+			return _Left.f(x);
 		default: throw new RuntimeException("The Operation is not vaild");
 		}
 	}
@@ -78,8 +79,9 @@ public class ComplexFunction implements complex_function
 	public function initFromString(String s) 
 	{
 		// TODO Auto-generated method stub
-		s = s.strip(); // remove spaces
+		//s = s.strip(); // remove spaces
 		//s=clearSpaces(s);
+		s = s.replaceAll("\\s",""); // Remove Spaces
 		int i=0;
 		if (s.indexOf('(') == -1 && s.indexOf(')') == -1) { 
 			Polynom po = new Polynom (s);
@@ -98,6 +100,7 @@ public class ComplexFunction implements complex_function
 			String s2=s.substring(split+1, s.length()-1);
 			function right = initFromString(s2);
 			String s3 = s.substring(0, i);
+			/*
 			s3.toLowerCase();
 			String s4="";
 			switch(s3) 
@@ -116,9 +119,10 @@ public class ComplexFunction implements complex_function
 			case "comp"	: s4="Comp"; break;
 
 			default: s4="None"; break;
-
+			Plus, Times, Divid, Max, Min, Comp , None, Error
 			}
-			function fun= new ComplexFunction(s4, left, right);
+			*/
+			function fun= new ComplexFunction(s3, left, right);
 			return fun;
 		}
 	}
