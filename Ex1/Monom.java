@@ -251,14 +251,41 @@ public class Monom implements function
 		else
 			throw new RuntimeException( "the power must be equals or the monom must be zero");
 	}
-	public boolean equals(Monom m2)
+	public boolean equals(Object other)
 	{
-		if (this.isZero() && m2.isZero())
-			return true;
-		if (Math.abs(this._coefficient - m2._coefficient) <= this.EPSILON)
-			return true;
-		return this._coefficient == m2._coefficient && this._power == m2._power;
+		if(other instanceof Monom)
+		{
+			Monom m = (Monom) other;
+			if(this._coefficient == 0 && m._coefficient == 0)
+				return true;
+			if(Math.abs(this._coefficient - m._coefficient) < EPSILON && this._power == m._power)
+			{
+				return true;
+			}
+			return false;
+		}
+		else
+		{
+			if (other instanceof Polynom)
+			{
+				Polynom p = new Polynom(this.toString());
+				return p.equals(other);
+			}
+			else if (other instanceof ComplexFunction)
+			{
+				for (double step = -15; step <= 15; step+=0.1)
+				{
+					if(Math.abs(this.f(step)-((function)other).f(step)) > Monom.EPSILON)
+					{
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
+	
+	
 	/**
 	 * returns the monom in this format: "a*x^b"
 	 */

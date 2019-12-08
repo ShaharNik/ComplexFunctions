@@ -14,21 +14,23 @@ public class ComplexFunction implements complex_function
 	}
 	public ComplexFunction(String Op, function left, function right)
 	{
-		switch (Op)
+		switch (Op.toLowerCase())
 		{
-		case "Plus": this._Op = Operation.Plus;
+		case "plus": this._Op = Operation.Plus;
 		break;
-		case "Times": this._Op = Operation.Times;
+		case "times": this._Op = Operation.Times;
 		break;
-		case "Divid": this._Op = Operation.Divid;
+		case "mul": this._Op = Operation.Times;
 		break;
-		case "Max": this._Op = Operation.Max;
+		case "div": this._Op = Operation.Divid;
 		break;
-		case "Min": this._Op = Operation.Min; 
+		case "max": this._Op = Operation.Max;
 		break;
-		case "Comp": this._Op = Operation.Comp;
+		case "min": this._Op = Operation.Min; 
 		break;
-		case "None": this._Op = Operation.None;
+		case "comp": this._Op = Operation.Comp;
+		break;
+		case "none": this._Op = Operation.None;
 		break;
 		default: this._Op = Operation.Error;
 		break;
@@ -71,7 +73,8 @@ public class ComplexFunction implements complex_function
 				return _Left.f(x);
 		case "None" :	
 			return _Left.f(x);
-		default: throw new RuntimeException("The Operation is not vaild");
+		//default: throw new RuntimeException("The Operation is not vaild");
+		default: return _Left.f(x);
 		}
 	}
 
@@ -79,13 +82,30 @@ public class ComplexFunction implements complex_function
 	public function initFromString(String s) 
 	{
 		// TODO Auto-generated method stub
+		if(s.indexOf("(") == -1 && s.indexOf(")") == -1)
+		{
+			Polynom p = new Polynom();
+			return p.initFromString(s);
+		}
+		int IndexFirstBracket = s.indexOf("(");
+		int IndexComma = splitPoint(s,IndexFirstBracket);
+		String op = s.substring(0, IndexFirstBracket);
+		// left function
+		function left = initFromString(s.substring(IndexFirstBracket+1,IndexComma));
+		// right function
+		function right = initFromString(s.substring(IndexComma+1,s.length()-1));
+		// op is low case
+		function ans = new ComplexFunction(op, left, right);
+		return ans;
+		/*
 		//s = s.strip(); // remove spaces
 		//s=clearSpaces(s);
 		s = s.replaceAll("\\s",""); // Remove Spaces
 		int i=0;
-		if (s.indexOf('(') == -1 && s.indexOf(')') == -1) { 
-			Polynom po = new Polynom (s);
-			function fun= new ComplexFunction(po);
+		if (s.indexOf('(') == -1 && s.indexOf(')') == -1) 
+		{ 
+			Polynom po = new Polynom(s);
+			function fun = new ComplexFunction(po);
 			return fun;
 		}
 		else 
@@ -95,68 +115,42 @@ public class ComplexFunction implements complex_function
 				i++;
 			}
 			int split=splitPoint(s, i+1);
-			String s1=s.substring(i+1, split);
-			function left = initFromString(s1);
-			String s2=s.substring(split+1, s.length()-1);
-			function right = initFromString(s2);
-			String s3 = s.substring(0, i);
-			/*
-			s3.toLowerCase();
-			String s4="";
-			switch(s3) 
-			{
-
-			case "plus"	: s4="Plus"; break;
-
-			case "mul"	: s4="Times"; break;
-
-			case "div"	: s4="Divid"; break;
-
-			case "max" 	: s4="Max"; break;
-
-			case "min"	: s4="Min"; break;
-
-			case "comp"	: s4="Comp"; break;
-
-			default: s4="None"; break;
-			Plus, Times, Divid, Max, Min, Comp , None, Error
-			}
-			*/
-			function fun= new ComplexFunction(s3, left, right);
+			// left function
+			String left_string = s.substring(i+1, split);
+			function left = initFromString(left_string);
+			// right function
+			String right_string = s.substring(split+1, s.length()-1);
+			function right = initFromString(right_string);
+			// operation
+			String op_string = s.substring(0, i);
+			// create ComplexFunction, look on it as a function.
+			function fun= new ComplexFunction(op_string, left, right);
 			return fun;
 		}
+		*/
 	}
 	/**
 	 * 
 	 * @param s - string that represents a complex function
-	 * @param i - location after "("
-	 * @return location of the split (left and right)
+	 * @param indexOfFirstBracket - location after "("
+	 * @return location of the split (left and right functions)
 	 */
-	private int splitPoint (String s , int i) 
+	private int splitPoint(String s , int indexOfFirstBracket) 
 	{
 		int comma=0;
 		int opener=1;
-		int closer=0;
-		int SplitAt=0;
-		while(i != s.length()) 
+		int SplitAt= indexOfFirstBracket + 1;
+		while(opener != comma && SplitAt < s.length()) 
 		{
-			if(s.charAt(i)=='(') 
+			if(s.charAt(SplitAt)=='(') 
 				opener++;
 
-			else if(s.charAt(i)==',') 
+			else if(s.charAt(SplitAt)==',') 
 				comma++;
 
-			else if(s.charAt(i)==')') 
-				closer++;
-
-			if(comma==opener && s.charAt(i) == ',') 
-			{
-				SplitAt=i;
-				return SplitAt;
-			}
-			i++;
+			SplitAt++;
 		}		
-		return SplitAt;
+		return SplitAt - 1;
 	}
 
 	@Override
@@ -171,15 +165,35 @@ public class ComplexFunction implements complex_function
 	{
 		if(other instanceof ComplexFunction)
 		{
+			
 			ComplexFunction f = (ComplexFunction)other;
 			boolean check=false;
 			if(this._Op.compareTo(f._Op) == 0) // check if the enums are equal
 				check = true;
 			return this._Left.equals(f._Left) && this._Right.equals(f._Right) && check ;
+			
+			/*
+			for (double x = -15; x <= 15; x+=0.1)
+			{
+				if(Math.abs(this.f(x)-((ComplexFunction)other).f(x)) > Monom.EPSILON)
+				{
+					return false;
+				}
+			}
+			*/
 		}
-		if(other instanceof function)
-			return this._Left.equals(other);
-		return false;
+		else if(other instanceof function)
+		{
+			// compare the functions values running 0.1 steps
+			for (double step = -15; step <= 15; step+=0.1)
+			{
+				if(Math.abs(this.f(step)-((function)other).f(step)) > Monom.EPSILON)
+				{
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	@Override
 	public void plus(function f1) 
@@ -285,10 +299,12 @@ public class ComplexFunction implements complex_function
 	 */
 	public String toString() 
 	{
+		/*
 		StringBuilder sb = new StringBuilder();
 		sb.append(this._Op.toString() +"("+this._Left.toString()+","+this._Right.toString()+")");
 		return sb.toString();
-		/*
+		*/
+		
 		String ans="";
 		String op ="";
 		if (this._Op != Operation.None) 
@@ -317,7 +333,7 @@ public class ComplexFunction implements complex_function
 			ans+=")";
 		}
 		return ans;
-		 */
+		 
 	}
 
 }
