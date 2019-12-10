@@ -37,6 +37,8 @@ public class ComplexFunction implements complex_function
 		}
 		if (left != null)
 			this._Left = left;
+		else
+			throw new RuntimeException("The Left can't be null");
 		this._Right = right;
 	}
 
@@ -167,10 +169,14 @@ public class ComplexFunction implements complex_function
 		{
 
 			ComplexFunction f = (ComplexFunction)other;
-			boolean check=false;
+			boolean op_check = false;
 			if(this._Op.compareTo(f._Op) == 0) // check if the enums are equal
-				check = true;
-			return this._Left.equals(f._Left) && this._Right.equals(f._Right) && check ;
+				op_check = true;
+			
+			if(this._Right != null)
+				return this._Left.equals(f._Left) && this._Right.equals(f._Right) && op_check ;
+			else
+				return this._Left.equals(f._Left) && op_check ;
 
 			/*
 			for (double x = -15; x <= 15; x+=0.1)
@@ -198,11 +204,14 @@ public class ComplexFunction implements complex_function
 	@Override
 	public void plus(function f1) 
 	{
+		//f1 = f1.copy();
 		if(this._Right != null)
 		{
-			function f = new ComplexFunction(OP_inUpper(),this._Left.copy(),this._Right.copy());
+			function f = new ComplexFunction(OP_inUpper(),this._Left.copy(), this._Right.copy());
 			this._Left = f;
 		}
+		else
+			throw new RuntimeException("Right Function is Null, can't execute operation.");
 
 		this._Right = f1.copy();
 		this._Op = Operation.Plus;
@@ -213,9 +222,11 @@ public class ComplexFunction implements complex_function
 	{
 		if(this._Right != null)
 		{
-			function f = new ComplexFunction(OP_inUpper(),this._Left,this._Right);
+			function f = new ComplexFunction(OP_inUpper(),this._Left.copy(), this._Right.copy());
 			this._Left = f.copy();
 		}
+		else
+			throw new RuntimeException("Right Function is Null, can't execute operation.");
 		this._Right = f1.copy();
 		this._Op = Operation.Times;
 
@@ -227,9 +238,11 @@ public class ComplexFunction implements complex_function
 		// TODO Auto-generated method stub
 		if(this._Right != null)
 		{
-			function f = new ComplexFunction(OP_inUpper(),this._Left,this._Right);
+			function f = new ComplexFunction(OP_inUpper(),this._Left.copy(), this._Right.copy());
 			this._Left = f.copy();
 		}
+		else
+			throw new RuntimeException("Right Function is Null, can't execute operation.");
 		this._Right = f1.copy();
 		this._Op = Operation.Divid;
 	}
@@ -240,9 +253,11 @@ public class ComplexFunction implements complex_function
 		// TODO Auto-generated method stub
 		if(this._Right != null)
 		{
-			function f = new ComplexFunction(OP_inUpper(),this._Left,this._Right);
+			function f = new ComplexFunction(OP_inUpper(),this._Left.copy(), this._Right.copy());
 			this._Left = f.copy();
 		}
+		else
+			throw new RuntimeException("Right Function is Null, can't execute operation.");
 		this._Right = f1.copy();
 		this._Op = Operation.Max;
 	}
@@ -253,9 +268,11 @@ public class ComplexFunction implements complex_function
 		// TODO Auto-generated method stub
 		if(this._Right != null)
 		{
-			function f = new ComplexFunction(OP_inUpper(),this._Left,this._Right);
+			function f = new ComplexFunction(OP_inUpper(),this._Left.copy(), this._Right.copy());
 			this._Left = f.copy();
 		}
+		else
+			throw new RuntimeException("Right Function is Null, can't execute operation.");
 		this._Right = f1.copy();
 		this._Op = Operation.Min;
 	}
@@ -266,9 +283,11 @@ public class ComplexFunction implements complex_function
 		// TODO Auto-generated method stub
 		if(this._Right != null)
 		{
-			function f = new ComplexFunction(OP_inUpper(),this._Left,this._Right);
+			function f = new ComplexFunction(OP_inUpper(),this._Left.copy(), this._Right.copy());
 			this._Left = f.copy();
 		}
+		else
+			throw new RuntimeException("Right Function is Null, can't execute operation.");
 		this._Right = f1.copy();
 		this._Op = Operation.Comp;
 	}
