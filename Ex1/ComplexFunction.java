@@ -1,10 +1,14 @@
 package Ex1;
 
+
 public class ComplexFunction implements complex_function
 {
+	public static final double EPS = 0.00001;
+	
 	private Operation _Op;
 	private function _Left;
 	private function _Right;
+	
 
 	public ComplexFunction()
 	{
@@ -23,6 +27,8 @@ public class ComplexFunction implements complex_function
 		case "mul": this._Op = Operation.Times;
 		break;
 		case "div": this._Op = Operation.Divid;
+		break;
+		case "divid": this._Op = Operation.Divid;
 		break;
 		case "max": this._Op = Operation.Max;
 		break;
@@ -167,7 +173,7 @@ public class ComplexFunction implements complex_function
 	{
 		if(other instanceof ComplexFunction)
 		{
-
+			/*
 			ComplexFunction f = (ComplexFunction)other;
 			boolean op_check = false;
 			if(this._Op.compareTo(f._Op) == 0) // check if the enums are equal
@@ -177,23 +183,26 @@ public class ComplexFunction implements complex_function
 				return this._Left.equals(f._Left) && this._Right.equals(f._Right) && op_check ;
 			else
 				return this._Left.equals(f._Left) && op_check ;
-
-			/*
-			for (double x = -15; x <= 15; x+=0.1)
+			*/
+			//double deBug;
+			ComplexFunction otherCF = (ComplexFunction)other;
+			for (double x = -150; x <= 150; x+=0.1)
 			{
-				if(Math.abs(this.f(x)-((ComplexFunction)other).f(x)) > Monom.EPSILON)
+				//deBug = Math.abs(this.f(x)-otherCF.f(x));
+				if(Math.abs(this.f(x)-otherCF.f(x)) > EPS)
 				{
 					return false;
 				}
 			}
-			 */
+			return true;
+			 
 		}
 		else if(other instanceof function)
 		{
 			// compare the functions values running 0.1 steps
-			for (double step = -15; step <= 15; step+=0.1)
+			for (double step = -150; step <= 150; step+=0.1)
 			{
-				if(Math.abs(this.f(step)-((function)other).f(step)) > Monom.EPSILON)
+				if(Math.abs(this.f(step)-((function)other).f(step)) > EPS)
 				{
 					return false;
 				}

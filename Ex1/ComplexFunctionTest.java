@@ -26,7 +26,7 @@ class ComplexFunctionTest
 		double dp = p.f(v);
 		double dcf = cf.f(v);
 		double dd = Math.abs(dp-dcf);
-		if (dd>EPS) 
+		if (dd > EPS) 
 		{
 			System.out.println(p+" at "+v+" = "+dp);
 			System.out.println(cf+" at "+v+" = "+dcf);
@@ -97,18 +97,146 @@ class ComplexFunctionTest
 		System.out.println(cf4.toString());
 		System.out.println("cf5: ");
 		System.out.println(cf5.toString());
-		*/
+		 */
 	}
 	@Test
 	void equalsTest()
 	{
+		// Part 1
 		ComplexFunction a = new ComplexFunction();
 		function f1 = a.initFromString("Plus(x,x)");
 		function f2 = a.initFromString("2x");
 		assertEquals(f1, f2);
-		function f3 = a.initFromString("plus(div(+1.0x +1.0,mul(mul(+1.0x +3.0,+1.0x -2.0),+1.0x -4.0)),2.0)");
-		function f4 = a.initFromString("Plus(div(x+1,x^3 - 3 x^2 -10x+24),2)");
-		assertEquals(f3, f4);
+
+		// Part 2
+		function f = new Polynom("2x");
+		function b = new Polynom("x^2");
+		ComplexFunction t1 = new ComplexFunction("Plus", f, b);
+		ComplexFunction t2 = new ComplexFunction("Plus", f, b);
+		if (!(t1.equals(t2))) 
+			fail("ERR: Object are not equals");
+
+		t2 = new ComplexFunction("Plus", b, f);
+		//if (!(t1.equals(t2))) 
+		//fail("ERR: Object are not equals");
+
+		function c = new Polynom("x^2+2x");
+		function d = new Polynom("0");
+		t2 = new ComplexFunction("Plus", c, d);
+		if (!(t1.equals(t2))) 
+			fail("ERR: Object are not equals");
+	}
+	@Test
+	void testPlus() 
+	{
+		function a = new Polynom("2x");
+		function b = new Polynom("x^2");
+		ComplexFunction t1 = new ComplexFunction("Plus", a, b);
+		if ((t1.f(3))!=15) 
+			fail("ERR: testPlus");
+	}
+
+	@Test
+	void testMul() 
+	{
+		function a = new Polynom("2x");
+		function b = new Polynom("x^2");
+		ComplexFunction t1 = new ComplexFunction("Times", a, b);
+		if ((t1.f(3))!=54) 
+			fail("ERR: testMul");
+	}
+
+	@Test
+	void testDiv() 
+	{
+		function a = new Polynom("2x^3");
+		function b = new Polynom("x^2");
+		ComplexFunction t1 = new ComplexFunction("Divid", a, b);
+		if ((t1.f(7))!=14) 
+			fail("ERR: testDiv");
+		b = new Polynom("0");
+		t1 = new ComplexFunction("Divid", a, b);
+		try 
+		{
+			t1.f(4);
+			fail("ERR: testDiv");;
+		}
+		catch (Exception e) {;}
+	}
+
+	@Test
+	void testMax() {
+		function a = new Polynom("2x");
+		function b = new Polynom("x^2");
+		ComplexFunction t1 = new ComplexFunction("max", a, b);
+		if ((t1.f(-1))!=1) 
+			fail("ERR: testMax");
+	}
+
+	@Test
+	void testMin() {
+		function a = new Polynom("2x");
+		function b = new Polynom("x^2");
+		ComplexFunction t1 = new ComplexFunction("min", a, b);
+		if ((t1.f(-1))!=-2) 
+			fail("ERR: testMin");
+	}
+
+	@Test
+	void testComp() {
+		function a = new Polynom("2x");
+		function b = new Polynom("x^2");
+		ComplexFunction t1 = new ComplexFunction("Comp", a, b);
+		if (t1.f(3)!=18) 
+			fail("ERR: testComp");
+	}
+	@Test
+	void testInitFromString() 
+	{
+		String s1 = "0";
+		Polynom p1 = new Polynom(s1);
+		function x = new ComplexFunction(p1);
+		String expected = "plus(max(plus(-6.0x,2.0x),plus(2.0x,-6.0x)),plus(max(plus(-6.0x,2.0x),plus(2.0x,-6.0x)),2.0x))";
+		try 
+		{
+			x = x.initFromString(expected);
+		}
+		catch (Exception e) 
+		{
+			fail("ERR: testInitFromString");
+		}
+		//part 2
+		Polynom p3 = new Polynom();
+		p1.add( new Monom(2,2));
+		Polynom p2 = new Polynom();
+		p2.add(new Monom(3,3));
+		Monom m1 = new Monom(2,2);
+		Monom m2 = new Monom(3,3);
+		ComplexFunction cf = new ComplexFunction("plus", m1,m2);
+		ComplexFunction cf3 = new ComplexFunction("Plus", p3,p2);
+		cf.mul(m2);
+		cf3.mul(m2);
+		String s = cf.toString();
+		function cf2 = cf.initFromString(s);
+		if(!cf.equals(cf2)) 
+		{
+			fail("ERR: "+cf+" should be equals to "+cf2);
+		}
+	}
+
+	@Test
+	void testCopy() 
+	{
+		function a = new Polynom("2x");
+		function b = new Polynom("x^2");
+		ComplexFunction t1 = new ComplexFunction("Comp", a, b);
+		ComplexFunction t2 = (ComplexFunction)t1.copy();
+		if (!(t1.f(2)==t2.f(2))) 
+			fail("ERR: testCopy");
+		t1.plus(a);
+		if (t1.f(2)==t2.f(2)) 
+			fail("ERR: testInitFromString");
+		
 	}
 
 }
