@@ -13,7 +13,11 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
+
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -123,17 +127,25 @@ public class Functions_GUI implements functions
 		// TODO Auto-generated method stub
 		G_Functions = new ArrayList<function>();
 		BufferedReader reader;
-		reader = new BufferedReader(new FileReader(file));
-		String line = reader.readLine();
-		while(line != null)
+		try
 		{
-			line = line.substring(line.indexOf("f(x)=")+"f(x)=".length());
-			line = line.strip(); // Removes white spaces
-			ComplexFunction cf = new ComplexFunction();
-			G_Functions.add(cf.initFromString(line));
-			line = reader.readLine();
+			reader = new BufferedReader(new FileReader(file));
+			String line = reader.readLine();
+			while(line != null)
+			{
+				line = line.substring(line.indexOf("f(x)=")+"f(x)=".length());
+				line = line.strip(); // Removes white spaces
+				ComplexFunction cf = new ComplexFunction();
+				G_Functions.add(cf.initFromString(line));
+				line = reader.readLine();
+			}
+			reader.close();
 		}
-		reader.close();
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
+		
 
 	}
 	public function get(int index)
@@ -182,18 +194,18 @@ public class Functions_GUI implements functions
 
 		StdDraw.setPenColor(Color.BLACK);
 		StdDraw.setPenRadius(0.005);
-		
+
 		StdDraw.setFont(new Font("TimesRoman", Font.BOLD, 15));
 		StdDraw.line(rx.get_min(), 0, rx.get_max(), 0);
 
-		
+
 		for (double i = rx.get_min(); i <= rx.get_max(); i++) 
 		{
 			StdDraw.text(i, -0.30, Integer.toString(Math.toIntExact((long) i)));
 		}
 		StdDraw.line(0, ry.get_min(), 0, ry.get_max());
 
-		
+
 		for (double i = ry.get_min(); i <= ry.get_max(); i++) 
 		{
 			StdDraw.text(-0.20,i, Integer.toString(Math.toIntExact((long) i)));
@@ -203,8 +215,8 @@ public class Functions_GUI implements functions
 		{
 			ArrayList<Double> xTag = new ArrayList<Double>();
 			ArrayList<Double> yTag = new ArrayList<Double>();
-			
-		
+
+
 			double rx_step = (Math.abs(rx.get_min())+Math.abs(rx.get_max()))/resolution;
 			for (double i = rx.get_min(); i < rx.get_max(); i+=rx_step)
 			{
@@ -228,9 +240,7 @@ public class Functions_GUI implements functions
 	public void drawFunctions(String json_file) 
 	{
 		//json simple
-		// TODO Auto-generated method stub
-		try 
-		{
+		try {
 			JSONObject  obj = (JSONObject) new JSONParser().parse(new FileReader(json_file));
 			int Width=1000;
 			int Height=600;
@@ -258,7 +268,7 @@ public class Functions_GUI implements functions
 				int i=0;
 				while(itr.hasNext() && i<2)
 				{
-					
+
 					Range_X[i++] = (double)itr.next().doubleValue();
 				}
 			}
@@ -280,23 +290,7 @@ public class Functions_GUI implements functions
 		catch (Exception e) {
 			// TODO: handle exception
 		}
-		
-		
-		/*
-		Gson gson = new Gson();
-		JsonReader reader = null;
-		try 
-		{
-			reader = new JsonReader(new FileReader(json_file));
-		} catch (FileNotFoundException e) 
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		G_Functions = gson.fromJson(reader, function.class); // contains the whole reviews list
-		G_Functions.toString(); 
-		*/
-		
+
 	}
 
 }

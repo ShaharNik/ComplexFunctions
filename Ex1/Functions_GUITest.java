@@ -22,8 +22,10 @@ import Ex1.function;
  * @author boaz_benmoshe
  *
  */
-class Functions_GUITest {
-	public static void main(String[] a) {
+class Functions_GUITest 
+{
+	public static void main(String[] a) 
+	{
 		Functions_GUI data = FunctionsFactory();
 		int w=1000, h=600, res=200;
 		Range rx = new Range(-10,10);
@@ -51,21 +53,34 @@ class Functions_GUITest {
 	}
 
 	//@Test
-	void testSaveToFile() {
+	void testSaveToFile() 
+	{
+		try
+		{
+			_data.saveToFile("s.txt");
+		}
+		catch (Exception e) 
+		{
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	void testDrawFunctions() 
+	{
+		int w=1000, h=600, res=200;
+		Range rx = new Range(-10,10);
+		Range ry = new Range(-5,15);
+		_data.drawFunctions(w,h,rx,ry,res);
 	//	fail("Not yet implemented");
 	}
 
 	//@Test
-	void testDrawFunctions() {
+	//void testDrawFunctionsIntIntRangeRangeInt() {
 		//_data.drawFunctions();
-	//	fail("Not yet implemented");
-	}
-
-	@Test
-	void testDrawFunctionsIntIntRangeRangeInt() {
-		_data.drawFunctions();
 		//fail("Not yet implemented");
-	}
+	//}
 	public static Functions_GUI FunctionsFactory() {
 		Functions_GUI ans = new Functions_GUI();
 		String s1 = "3.1 +2.4x^2 -x^4";

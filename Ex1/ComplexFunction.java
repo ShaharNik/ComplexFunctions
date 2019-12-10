@@ -73,7 +73,7 @@ public class ComplexFunction implements complex_function
 				return _Left.f(x);
 		case "None" :	
 			return _Left.f(x);
-		//default: throw new RuntimeException("The Operation is not vaild");
+			//default: throw new RuntimeException("The Operation is not vaild");
 		default: return _Left.f(x);
 		}
 	}
@@ -127,7 +127,7 @@ public class ComplexFunction implements complex_function
 			function fun= new ComplexFunction(op_string, left, right);
 			return fun;
 		}
-		*/
+		 */
 	}
 	/**
 	 * 
@@ -157,7 +157,7 @@ public class ComplexFunction implements complex_function
 	public function copy() 
 	{
 		// TODO Auto-generated method stub
-		function ans = new ComplexFunction(_Op.toString(),_Left.copy(),_Right.copy());
+		function ans = new ComplexFunction(OP_inUpper(),_Left.copy(),_Right.copy());
 		return ans;
 	}
 	@Override
@@ -165,13 +165,13 @@ public class ComplexFunction implements complex_function
 	{
 		if(other instanceof ComplexFunction)
 		{
-			
+
 			ComplexFunction f = (ComplexFunction)other;
 			boolean check=false;
 			if(this._Op.compareTo(f._Op) == 0) // check if the enums are equal
 				check = true;
 			return this._Left.equals(f._Left) && this._Right.equals(f._Right) && check ;
-			
+
 			/*
 			for (double x = -15; x <= 15; x+=0.1)
 			{
@@ -180,7 +180,7 @@ public class ComplexFunction implements complex_function
 					return false;
 				}
 			}
-			*/
+			 */
 		}
 		else if(other instanceof function)
 		{
@@ -200,7 +200,7 @@ public class ComplexFunction implements complex_function
 	{
 		if(this._Right != null)
 		{
-			function f = new ComplexFunction(_Op.toString(),this._Left.copy(),this._Right.copy());
+			function f = new ComplexFunction(OP_inUpper(),this._Left.copy(),this._Right.copy());
 			this._Left = f;
 		}
 
@@ -213,7 +213,7 @@ public class ComplexFunction implements complex_function
 	{
 		if(this._Right != null)
 		{
-			function f = new ComplexFunction(_Op.toString(),this._Left,this._Right);
+			function f = new ComplexFunction(OP_inUpper(),this._Left,this._Right);
 			this._Left = f.copy();
 		}
 		this._Right = f1.copy();
@@ -227,7 +227,7 @@ public class ComplexFunction implements complex_function
 		// TODO Auto-generated method stub
 		if(this._Right != null)
 		{
-			function f = new ComplexFunction(_Op.toString(),this._Left,this._Right);
+			function f = new ComplexFunction(OP_inUpper(),this._Left,this._Right);
 			this._Left = f.copy();
 		}
 		this._Right = f1.copy();
@@ -240,7 +240,7 @@ public class ComplexFunction implements complex_function
 		// TODO Auto-generated method stub
 		if(this._Right != null)
 		{
-			function f = new ComplexFunction(_Op.toString(),this._Left,this._Right);
+			function f = new ComplexFunction(OP_inUpper(),this._Left,this._Right);
 			this._Left = f.copy();
 		}
 		this._Right = f1.copy();
@@ -253,7 +253,7 @@ public class ComplexFunction implements complex_function
 		// TODO Auto-generated method stub
 		if(this._Right != null)
 		{
-			function f = new ComplexFunction(_Op.toString(),this._Left,this._Right);
+			function f = new ComplexFunction(OP_inUpper(),this._Left,this._Right);
 			this._Left = f.copy();
 		}
 		this._Right = f1.copy();
@@ -266,7 +266,7 @@ public class ComplexFunction implements complex_function
 		// TODO Auto-generated method stub
 		if(this._Right != null)
 		{
-			function f = new ComplexFunction(_Op.toString(),this._Left,this._Right);
+			function f = new ComplexFunction(OP_inUpper(),this._Left,this._Right);
 			this._Left = f.copy();
 		}
 		this._Right = f1.copy();
@@ -303,8 +303,8 @@ public class ComplexFunction implements complex_function
 		StringBuilder sb = new StringBuilder();
 		sb.append(this._Op.toString() +"("+this._Left.toString()+","+this._Right.toString()+")");
 		return sb.toString();
-		*/
-		
+		 */
+
 		String ans="";
 		String op ="";
 		if (this._Op != Operation.None) 
@@ -333,7 +333,20 @@ public class ComplexFunction implements complex_function
 			ans+=")";
 		}
 		return ans;
-		 
+
+	}
+	private String OP_inUpper()
+	{
+		switch(this._Op.toString())
+		{
+		case "Plus": return "plus";
+		case "Times" : return "mul";
+		case "Divid" : return "div";
+		case "Max" : return "max";
+		case "Min" : return "min";
+		case "Comp" :return "comp";
+		default: return "ERROR";
+		}
 	}
 
 }
