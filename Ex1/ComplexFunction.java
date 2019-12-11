@@ -105,37 +105,7 @@ public class ComplexFunction implements complex_function
 		// op is low case
 		function ans = new ComplexFunction(op, left, right);
 		return ans;
-		/*
-		//s = s.strip(); // remove spaces
-		//s=clearSpaces(s);
-		s = s.replaceAll("\\s",""); // Remove Spaces
-		int i=0;
-		if (s.indexOf('(') == -1 && s.indexOf(')') == -1) 
-		{ 
-			Polynom po = new Polynom(s);
-			function fun = new ComplexFunction(po);
-			return fun;
-		}
-		else 
-		{
-			while (s.charAt(i) != '(') 
-			{
-				i++;
-			}
-			int split=splitPoint(s, i+1);
-			// left function
-			String left_string = s.substring(i+1, split);
-			function left = initFromString(left_string);
-			// right function
-			String right_string = s.substring(split+1, s.length()-1);
-			function right = initFromString(right_string);
-			// operation
-			String op_string = s.substring(0, i);
-			// create ComplexFunction, look on it as a function.
-			function fun= new ComplexFunction(op_string, left, right);
-			return fun;
-		}
-		 */
+
 	}
 	/**
 	 * 
@@ -173,17 +143,6 @@ public class ComplexFunction implements complex_function
 	{
 		if(other instanceof ComplexFunction)
 		{
-			/*
-			ComplexFunction f = (ComplexFunction)other;
-			boolean op_check = false;
-			if(this._Op.compareTo(f._Op) == 0) // check if the enums are equal
-				op_check = true;
-			
-			if(this._Right != null)
-				return this._Left.equals(f._Left) && this._Right.equals(f._Right) && op_check ;
-			else
-				return this._Left.equals(f._Left) && op_check ;
-			*/
 			//double deBug;
 			ComplexFunction otherCF = (ComplexFunction)other;
 			for (double x = -150; x <= 150; x+=0.1)

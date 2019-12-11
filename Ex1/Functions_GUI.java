@@ -12,11 +12,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
 
 import org.json.simple.JSONArray;
@@ -145,7 +140,7 @@ public class Functions_GUI implements functions
 		{
 			e.printStackTrace();
 		}
-		
+
 
 	}
 	public function get(int index)
@@ -156,16 +151,23 @@ public class Functions_GUI implements functions
 	@Override
 	public void saveToFile(String file) throws IOException 
 	{
-		FileWriter fw = new FileWriter(file);
-		Iterator<function> itrFunction = G_Functions.iterator();
-		int counter = 0;
-		while(itrFunction.hasNext())
+		try
 		{
-			function f = itrFunction.next();
-			fw.write(counter+") "+"   f(x)= "+f.toString()+'\n');
-			counter++;
+			FileWriter fw = new FileWriter(file);
+			Iterator<function> itrFunction = G_Functions.iterator();
+			int counter = 0;
+			while(itrFunction.hasNext())
+			{
+				function f = itrFunction.next();
+				fw.write(counter+") "+"   f(x)= "+f.toString()+'\n');
+				counter++;
+			}
+			fw.close();
 		}
-		fw.close();
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 
 	}
 
@@ -240,7 +242,8 @@ public class Functions_GUI implements functions
 	public void drawFunctions(String json_file) 
 	{
 		//json simple
-		try {
+		try 
+		{
 			JSONObject  obj = (JSONObject) new JSONParser().parse(new FileReader(json_file));
 			int Width=1000;
 			int Height=600;

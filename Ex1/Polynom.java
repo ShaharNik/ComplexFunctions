@@ -263,6 +263,17 @@ public class Polynom implements Polynom_able
 				Polynom m = new Polynom(p1.toString());
 				return this.equals(m);
 			}
+			else if(p1 instanceof ComplexFunction)
+			{
+				for (double step = -15; step <= 15; step+=0.1)
+				{
+					if(Math.abs(this.f(step)-((function)p1).f(step)) > Monom.EPSILON)
+					{
+						return false;
+					}
+				}
+				return true;
+			}
 			return false;
 		}
 	}
