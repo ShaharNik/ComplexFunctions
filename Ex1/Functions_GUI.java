@@ -20,107 +20,107 @@ import org.json.simple.parser.JSONParser;
 
 public class Functions_GUI implements functions
 {
-	ArrayList<function> G_Functions;
+	ArrayList<function> Gui_Functions;
 	public Functions_GUI()
 	{
-		G_Functions = new ArrayList<function>();
+		Gui_Functions = new ArrayList<function>();
 	}
 	@Override
 	public int size() 
 	{
 		// TODO Auto-generated method stub
-		return G_Functions.size();
+		return Gui_Functions.size();
 	}
 
 	@Override
 	public boolean isEmpty() 
 	{
 		// TODO Auto-generated method stub
-		return G_Functions.isEmpty();
+		return Gui_Functions.isEmpty();
 	}
 
 	@Override
 	public boolean contains(Object o) 
 	{
 		// TODO Auto-generated method stub
-		return G_Functions.contains(o);
+		return Gui_Functions.contains(o);
 	}
 
 	@Override
 	public Iterator<function> iterator() 
 	{
 		// TODO Auto-generated method stub
-		return G_Functions.iterator();
+		return Gui_Functions.iterator();
 	}
 
 	@Override
 	public Object[] toArray() 
 	{
 		// TODO Auto-generated method stub
-		return G_Functions.toArray();
+		return Gui_Functions.toArray();
 	}
 
 	@Override
 	public <T> T[] toArray(T[] a) 
 	{
 		// TODO Auto-generated method stub
-		return G_Functions.toArray(a);
+		return Gui_Functions.toArray(a);
 	}
 
 	@Override
 	public boolean add(function e) 
 	{
 		// TODO Auto-generated method stub
-		return G_Functions.add(e);
+		return Gui_Functions.add(e);
 	}
 
 	@Override
 	public boolean remove(Object o) 
 	{
 		// TODO Auto-generated method stub
-		return G_Functions.remove(o);
+		return Gui_Functions.remove(o);
 	}
 
 	@Override
 	public boolean containsAll(Collection<?> c) 
 	{
 		// TODO Auto-generated method stub
-		return G_Functions.containsAll(c);
+		return Gui_Functions.containsAll(c);
 	}
 
 	@Override
 	public boolean addAll(Collection<? extends function> c) 
 	{
 		// TODO Auto-generated method stub
-		return G_Functions.addAll(c);
+		return Gui_Functions.addAll(c);
 	}
 
 	@Override
 	public boolean removeAll(Collection<?> c) 
 	{
 		// TODO Auto-generated method stub
-		return G_Functions.removeAll(c);
+		return Gui_Functions.removeAll(c);
 	}
 
 	@Override
 	public boolean retainAll(Collection<?> c) 
 	{
 		// TODO Auto-generated method stub
-		return G_Functions.retainAll(c);
+		return Gui_Functions.retainAll(c);
 	}
 
 	@Override
 	public void clear() 
 	{
 		// TODO Auto-generated method stub
-		G_Functions.clear();
+		Gui_Functions.clear();
 	}
 
 	@Override
 	public void initFromFile(String file) throws IOException 
 	{
 		// TODO Auto-generated method stub
-		G_Functions = new ArrayList<function>();
+		Gui_Functions = new ArrayList<function>();
 		BufferedReader reader;
 		try
 		{
@@ -131,7 +131,7 @@ public class Functions_GUI implements functions
 				line = line.substring(line.indexOf("f(x)=")+"f(x)=".length());
 				line = line.strip(); // Removes white spaces
 				ComplexFunction cf = new ComplexFunction();
-				G_Functions.add(cf.initFromString(line));
+				Gui_Functions.add(cf.initFromString(line));
 				line = reader.readLine();
 			}
 			reader.close();
@@ -145,7 +145,7 @@ public class Functions_GUI implements functions
 	}
 	public function get(int index)
 	{
-		return G_Functions.get(index);
+		return Gui_Functions.get(index);
 	}
 
 	@Override
@@ -154,7 +154,7 @@ public class Functions_GUI implements functions
 		try
 		{
 			FileWriter fw = new FileWriter(file);
-			Iterator<function> itrFunction = G_Functions.iterator();
+			Iterator<function> itrFunction = Gui_Functions.iterator();
 			int counter = 0;
 			while(itrFunction.hasNext())
 			{
@@ -171,6 +171,9 @@ public class Functions_GUI implements functions
 
 	}
 
+
+
+
 	@Override
 	public void drawFunctions(int width, int height, Range rx, Range ry, int resolution) 
 	{
@@ -181,7 +184,7 @@ public class Functions_GUI implements functions
 		StdDraw.setXscale(rx.get_min(), rx.get_max());
 		StdDraw.setYscale(ry.get_min(), ry.get_max());
 
-		StdDraw.setPenColor(Color.LIGHT_GRAY);
+		StdDraw.setPenColor(Color.DARK_GRAY);
 
 		// Vertical Lines
 		for (double i = rx.get_min(); i <= rx.get_max(); i++) 
@@ -213,26 +216,26 @@ public class Functions_GUI implements functions
 			StdDraw.text(-0.20,i, Integer.toString(Math.toIntExact((long) i)));
 		}
 
-		for (function function : G_Functions) 
+		for (function function : Gui_Functions) 
 		{
-			ArrayList<Double> xTag = new ArrayList<Double>();
-			ArrayList<Double> yTag = new ArrayList<Double>();
+			ArrayList<Double> xValues = new ArrayList<Double>();
+			ArrayList<Double> yValues = new ArrayList<Double>();
 
 
 			double rx_step = (Math.abs(rx.get_min())+Math.abs(rx.get_max()))/resolution;
 			for (double i = rx.get_min(); i < rx.get_max(); i+=rx_step)
 			{
-				xTag.add(i);
-				yTag.add(function.f(i));
+				xValues.add(i);
+				yValues.add(function.f(i));
 			}
 			int R = (int)(Math.random()*256);
 			int G = (int)(Math.random()*256);
 			int B = (int)(Math.random()*256);
 			Color color = new Color(R, G, B);
 			StdDraw.setPenColor(color);
-			for (int i = 0; i < xTag.size()-1; i++) 
+			for (int i = 0; i < xValues.size()-1; i++) 
 			{
-				StdDraw.line(xTag.get(i), yTag.get(i), xTag.get(i+1), yTag.get(i+1));
+				StdDraw.line(xValues.get(i), yValues.get(i), xValues.get(i+1), yValues.get(i+1));
 			}
 		}
 		StdDraw.setPenColor(Color.BLACK);
@@ -250,8 +253,8 @@ public class Functions_GUI implements functions
 			int Resolution=200;
 			double[] Range_X = {-10,10};
 			double[] Range_Y = {-5,15};
-			JSONArray JAx;
-			JSONArray JAy;
+			JSONArray JA_Rx;
+			JSONArray JA_Ry;
 			if(obj.get("Width") != null)
 			{
 				Width = Math.toIntExact((long) obj.get("Width"));
@@ -266,8 +269,8 @@ public class Functions_GUI implements functions
 			}
 			if(obj.get("Range_X") != null)
 			{
-				JAx = (JSONArray) obj.get("Range_X");
-				Iterator<Long> itr = JAx.iterator();
+				JA_Rx = (JSONArray) obj.get("Range_X");
+				Iterator<Long> itr = JA_Rx.iterator();
 				int i=0;
 				while(itr.hasNext() && i<2)
 				{
@@ -277,8 +280,8 @@ public class Functions_GUI implements functions
 			}
 			if(obj.get("Range_Y") != null)
 			{
-				JAy = (JSONArray) obj.get("Range_Y");
-				Iterator<Long> itr = JAy.iterator();
+				JA_Ry = (JSONArray) obj.get("Range_Y");
+				Iterator<Long> itr = JA_Ry.iterator();
 				int i=0;
 				while(itr.hasNext() && i<2)
 				{
@@ -290,10 +293,15 @@ public class Functions_GUI implements functions
 			drawFunctions(Width,Height,rx,ry,Resolution);
 			//obj.get
 		}
-		catch (Exception e) {
-			// TODO: handle exception
+		catch (Exception e)      // need to be handled
+		{
+			System.err.println("The file was not found using default params");  
+			Range rx = new Range(Range_X[0], Range_X[1]);
+			Range ry = new Range(Range_Y[0], Range_Y[1]);
+			drawFunctions(width,height,rx,ry,resolution);
 		}
 
 	}
 
 }
+
