@@ -12,14 +12,16 @@ class Polynom_Test_Junit {
 
 
 	/*
-	 * 1) substract test
-	 * 2) add test
-	 * 3) testf test
-	 * 4) multiply test
-	 * 5) isZero test
-	 * 6) root test
-	 * 7) derivative test
-	 * 8) area test
+	 * 1)  substract test
+	 * 2)  add test
+	 * 3)  test_f test
+	 * 4)  multiply test
+	 * 5)  isZero test
+	 * 6)  root test
+	 * 7)  derivative test
+	 * 8)  area test
+	 * 9)  generalTest1
+	 * 10) generalTest2
 	 * 
 	 * 
 	 */
@@ -89,8 +91,33 @@ class Polynom_Test_Junit {
 
 		p1.multiply(p2);;
 
-		assertNotEquals(p1.toString(), "5.0x^5-8.0x^4+4.0x^3-2.0x^2+11.0x-9.0");			
+		assertNotEquals(p1.toString(), "5.0x^5-8.0x^4+4.0x^3-2.0x^2+11.0x-9.0");	
+		
 
+		Polynom_able p3= new Polynom("9x^3+0");
+
+		Polynom_able p4= new Polynom("11x^2+5");
+
+		p3.multiply(p4);
+
+		assertEquals(p3.toString(), "99.0*x^5+45.0*x^3");
+		
+		Polynom_able p5= new Polynom("2x^2+3");
+
+		Polynom_able p6= new Polynom("5x^1+2");
+
+		p5.multiply(p6);
+
+		assertEquals(p5.toString(), "10.0*x^3+4.0*x^2+15.0*x^1+6.0");
+		
+
+		Polynom_able p7= new Polynom("52x^7+6x^1-3"); // multiply Polynom and Monom
+
+		Monom m8= new Monom("4");
+
+		p7.multiply(m8);
+
+		assertEquals(p7.toString(), "208.0*x^7+24.0*x^1-12.0");
 	}
 
 
@@ -179,14 +206,64 @@ class Polynom_Test_Junit {
 
 	}
 
+	@Test
+	
+	void generalTest1()                                               //J-unit good test for generalTest1
+
+	{
+		Polynom p1 = new Polynom("1 + x^7+3.4x^5");
+		Polynom p2 = new Polynom("x");
+		Polynom p3 = new Polynom("x^2-5*X^2");
+		Polynom p4 = new Polynom("0.5x^3+3*x^3+x+1x+7+8");
+	
+		assertEquals(p1.toString(),"1.0*x^7+3.4*x^5+1.0");
+		assertEquals(p2.toString(),"1.0*x^1");
+		assertEquals(p3.toString(),"-4.0*x^2");	
+		assertEquals(p4.toString(),"3.5*x^3+2.0*x^1+15.0");
+		
+		
+	}
+
+@Test
+	
+	void generalTest2()                                               //J-unit good test for generalTest2
+
+	{
+	Polynom p1 = new Polynom(), p2 =  new Polynom();
+	String[] monoms1 = {"2", "-x","-3.2x^2","4","-1.5x^2"};
+	String[] monoms2 = {"5", "1.7x","3.2x^2","-3","-1.5x^2"};
+	for(int i=0;i<monoms1.length;i++) 
+	{
+		Monom m = new Monom(monoms1[i]);
+		p1.add(m);
+	}
+	for(int i=0;i<monoms2.length;i++) 
+	{
+		Monom m = new Monom(monoms2[i]);
+		p2.add(m);
+	}
+	
+		assertEquals(p1.toString(),"-4.7*x^2-1.0*x^1+6.0");
+		assertEquals(p2.toString(),"1.7000000000000002*x^2+1.7*x^1+2.0");
+		p1.add(p2);
+		assertEquals(p1.toString(),"-3.0*x^2+0.7*x^1+8.0");
+		p1.multiply(p2);
+		assertEquals(p1.toString(),"-5.1000000000000005*x^4-3.9099999999999997*x^3+8.790000000000001*x^2+15.0*x^1+16.0");
+		String s1 = p1.toString();
+		Polynom_able pp1 = new Polynom(s1); 
+		assertEquals(pp1.toString(),"-5.1000000000000005*x^4-3.9099999999999997*x^3+8.790000000000001*x^2+15.0*x^1+16.0");
+
+		
+		
+	}
+
+/*
 
 
-
-
-
-
-
-
+	
+	*/
+	
+	
 
 
 }
