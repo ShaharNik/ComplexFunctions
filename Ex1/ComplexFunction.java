@@ -141,6 +141,7 @@ public class ComplexFunction implements complex_function
 	@Override
 	public boolean equals(Object other)
 	{
+		/*
 		if(other instanceof ComplexFunction)
 		{
 			//double deBug;
@@ -156,7 +157,8 @@ public class ComplexFunction implements complex_function
 			return true;
 			 
 		}
-		else if(other instanceof function)
+		*/
+		if(other instanceof function)
 		{
 			// compare the functions values running 0.1 steps
 			for (double step = -150; step <= 150; step+=0.1)
