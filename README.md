@@ -3,7 +3,7 @@ The tasks were written by:
 Shahar Niknazar - 316416668
 Or Gamliel - 208202663
 
-myMath
+
 We have 2 classes in our project:
 Monom – shaped like a*x^b, when a is a real number and b is an integer(should be positive).
 Polynom - shaped as array lists of monomials.
@@ -54,3 +54,21 @@ Polynom class have few functions:
 12. Iterator (of Monoms) over our Polynom.
 13. Calculate specific x of the Polynom (int & double).
 14. To string - return a string of our Polynom.
+
+Complex Function CLASS:
+Comlex Function class have 3 constructors:
+1. default constructor.
+2. Building constructor - get operation as a string and 2 functions.
+3. Only Left Function Constructor.
+ComplexFunction Functions:
+Plus- Computes and returns the Y value of (left function + right function) at the point X.
+mul- Computes and returns the Y value of (left function * right function) at the point X.
+div- Computes and returns the Y value of (left function / right function) at the point X.
+max- Computes and returns the Y value of max(leftFunction(x),rightFunction(x)).
+min- Computes and returns the Y value of min(leftFunction(x),rightFunction(x)).
+comp- Computes and returns the Y value of (leftfunction(rightfunction(x)),Computes the Y value of rightfunction at the point X and computes this Value as the x for the left function.
+none- Only viable if right function Is NULL so it returns the value Y of leftFucntion at the point X.
+
+Functions GUI CLASS:
+The Class Functions_GUI is implementing functions interface which extends Collection.
+The Class holds a Collection of functions. In addition to supplying basic Collection functions it also Draws in a JFrame GUI the funcions from the collection, reads functions from file and creating a collections from them, save the collection into a readable txt file.
