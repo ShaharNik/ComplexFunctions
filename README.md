@@ -11,7 +11,7 @@ Polynom - shaped as array lists of monomials.
 
 
 
-MONOM CLASS:
+**MONOM CLASS:**
 Monom class have few functions:
 1. Add monoms with the same power(new one and exist one).
 2. Calculate function value of specific x (int and double x).
@@ -25,7 +25,7 @@ Monom class have few functions:
 9. GetPower - help functions that get string that represent monom and find his power.
 10. To string - return a string of the monom.
 
-The class have 3 constructors:
+**The class have 3 constructors:**
 1. Default constructor.
 2. Copy constructor.
 3. String constructor - get string of monom and turn it to new monom.
@@ -39,7 +39,7 @@ The class have 3 constructors:
 2. string constructor - get string of polynom and make it to new polynom.
 3. copy constructor.
 
-Polynom class have few functions:
+**Polynom class have few functions:**
 1. Add monom to our Polynom.
 2. Add Polynom to our Polynom.
 3. Subtract between two Polynoms.
@@ -55,7 +55,7 @@ Polynom class have few functions:
 13. Calculate specific x of the Polynom (int & double).
 14. To string - return a string of our Polynom.
 
-Complex Function CLASS:
+**Complex Function CLASS:**
 Comlex Function class have 3 constructors:
 1. default constructor.
 2. Building constructor - get operation as a string and 2 functions.
@@ -69,6 +69,6 @@ min- Computes and returns the Y value of min(leftFunction(x),rightFunction(x)).
 comp- Computes and returns the Y value of (leftfunction(rightfunction(x)),Computes the Y value of rightfunction at the point X and computes this Value as the x for the left function.
 none- Only viable if right function Is NULL so it returns the value Y of leftFucntion at the point X.
 
-Functions GUI CLASS:
+**Functions GUI CLASS:**
 The Class Functions_GUI is implementing functions interface which extends Collection.
 The Class holds a Collection of functions. In addition to supplying basic Collection functions it also Draws in a JFrame GUI the funcions from the collection, reads functions from file and creating a collections from them, save the collection into a readable txt file.
